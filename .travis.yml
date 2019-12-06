@@ -1,0 +1,17 @@
+sudo: required
+services:
+	- docker
+before_install:
+	- docker build -t mayank74/react-test -f ./client/Dockerfile.dev ./client
+scripts:
+	- docker run mayank74/react-test npm test -- --coverage
+after_success:
+	- docker build -t stephengrider/multi-client ./client
+	- docker build -t stephengrider/multi-server ./server
+	- docker build -t stephengrider/multi-nginx ./nginx
+	- docker build -t stephengrider/multi-worker ./worker
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin  
+        - docker push mayank74/multi-client
+        - docker push mayank74/multi-client
+        - docker push mayank74/multi-server 
+        - docker push mayank74/multi-worker
