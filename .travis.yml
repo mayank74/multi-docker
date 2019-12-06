@@ -1,10 +1,11 @@
+language: generic
 sudo: required
 services:
 	- docker
 before_install:
 	- docker build -t mayank74/react-test -f ./client/Dockerfile.dev ./client
 scripts:
-	- docker run mayank74/react-test npm test -- --coverage
+	- docker run -e CI=true mayank74/react-test npm test -- --coverage
 after_success:
 	- docker build -t mayank74/multi-client ./client
 	- docker build -t mayank74/multi-server ./server
