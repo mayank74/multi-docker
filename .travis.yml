@@ -4,7 +4,9 @@ services:
 	- docker
 before_install:
 	- docker build -t mayank74/react-test -f ./client/Dockerfile.dev ./client
-        - 'sudo gem install bundler'
+        - echo "BEFORE INSTALL START"
+        - gem install bundler
+        - echo "BEFORE INSTALL END"
 scripts:
 	- docker run -e CI=true mayank74/react-test npm test -- --coverage
         - 'gem install bundler'
